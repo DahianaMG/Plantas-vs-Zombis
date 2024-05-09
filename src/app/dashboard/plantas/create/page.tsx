@@ -1,6 +1,15 @@
 import { CreatePlantForm } from '@/components/create-plant-form';
+import { createServerClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export default async function CreatePlantPage() {
+  const supabase = createServerClient();
+  const user = await supabase.auth.getUser();
+
+  if (user.error!==null) {
+    return redirect('/');
+  }
+
   return (
     <main>
     <div className="cursor-oblea bg-fondo2 bg-cover bg-center flex items-center justify-center p-2 flex-col justify-items-stretch min-h-screen">

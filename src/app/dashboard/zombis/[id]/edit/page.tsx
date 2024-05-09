@@ -1,5 +1,6 @@
 import { EditZombiForm } from '@/components/edit-zombi-form';
 import { createServerClient } from '@/utils/supabase/server';
+import { redirect } from 'next/navigation';
 
 export default async function EditZombi({ params }: any) {
   const supabase = createServerClient();
@@ -8,6 +9,11 @@ export default async function EditZombi({ params }: any) {
     .select('*')
     .eq('id', params.id)
     .single();
+  const user = await supabase.auth.getUser();
+
+  if (user.error!==null) {
+    return redirect('/');
+  }
 
   return (
     <main>

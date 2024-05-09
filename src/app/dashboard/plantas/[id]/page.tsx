@@ -1,11 +1,17 @@
 import { createServerClient } from '@/utils/supabase/server';
 import { DeletePlantButton } from '@/components/delete-plant-button';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 import { FaHome } from "react-icons/fa";
 
 export default async function PlantaPorIdPage({ params }: any) {
   const supabase = createServerClient();
   const { data } = await supabase.from('plantas').select('*').eq('id', params.id).single();
+  const user = await supabase.auth.getUser();
+
+  if (user.error!==null) {
+    return redirect('/');
+  }
 
   return (
     <div className='cursor-oblea bg-fondo2 bg-cover bg-center flex flex-col justify-items-stretch min-h-screen'>

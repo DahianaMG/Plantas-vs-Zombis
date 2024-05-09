@@ -10,7 +10,7 @@ export default async function ZombisPage() {
   const { data } = await supabase.from('zombis').select('*').order('id', { ascending: true });
   const user = await supabase.auth.getUser();
 
-  if (user.error) {
+  if (user.error!==null) {
     return redirect('/');
   }
     

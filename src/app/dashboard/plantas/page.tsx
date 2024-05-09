@@ -5,12 +5,12 @@ import { redirect } from 'next/navigation';
 
 export const revalidate = 0;
 
-export default async function PlanttasPage() {
+export default async function PlantasPage() {
   const supabase = createServerClient();
   const { data } = await supabase.from('plantas').select('*').order('id', { ascending: true });
   const user = await supabase.auth.getUser();
 
-  if (user.error) {
+  if (user.error!==null) {
     return redirect('/');
   }
     
